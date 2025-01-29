@@ -34,7 +34,7 @@ public class SearchSteps {
     public void searchFor(String query) {
         WebElement searchBox;
         //  Interestingly enough the element name is the same on all 3 search engines
-        // TODO , check edge to see if same element name
+        // TODO , check edge to see if same element name and cleanup possibler NPE
         if (driver.getCurrentUrl().contains("google")) {
             searchBox = driver.findElement(By.name("q"));
         } else {
