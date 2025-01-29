@@ -13,7 +13,7 @@ public class SearchSteps {
     private WebDriver driver;
 
     @Given("I open Chrome")
-    public void i_open_chome() {
+    public void openChromeBrowser() {
         System.setProperty("webdriver.chrome.driver", "C:/webdrivers/Chrome/chromedriver.exe");
         driver = new ChromeDriver();
         // TODO add assertion that chrome is open
@@ -52,7 +52,6 @@ public class SearchSteps {
         topResult.click();
         String actualUrl = driver.getCurrentUrl();
         Assertions.assertEquals(expectedUrl, actualUrl, "Top result URL does not match!");
-
         driver.quit();
     }
 }
