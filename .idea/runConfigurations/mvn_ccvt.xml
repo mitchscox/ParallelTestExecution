@@ -15,6 +15,7 @@
               <option value="compile" />
               <option value="validate" />
               <option value="test" />
+              <option value="-Dtest=runners.CucumberTestSuite" />
             </list>
           </option>
           <option name="multimoduleDir" />

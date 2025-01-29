@@ -2,7 +2,7 @@
   <configuration default="false" name="All Seq" type="JUnit" factoryName="JUnit">
     <module name="ParallelTestExecution" />
     <option name="PACKAGE_NAME" value="runners" />
-    <option name="MAIN_CLASS_NAME" value="runners.CucumberTestSuite" />
+    <option name="MAIN_CLASS_NAME" value="runners.CucumberTest" />
     <option name="METHOD_NAME" value="" />
     <option name="TEST_OBJECT" value="class" />
     <method v="2">
