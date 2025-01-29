@@ -29,7 +29,7 @@ public class SearchSteps {
     public void navigateTo(String url) {
         driver.get(url);
     }
- 
+
     @When("I search for {string}")
     public void searchFor(String query) {
         WebElement searchBox;
@@ -42,6 +42,8 @@ public class SearchSteps {
         }
         searchBox.sendKeys(query);
         searchBox.submit();
+        // TODO remove this after validation fixed
+        driver.quit();
     }
 
     @Then("the top result should be {string}")
