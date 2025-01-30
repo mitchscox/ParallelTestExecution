@@ -50,7 +50,7 @@ public class SearchSteps {
         searchBox.sendKeys(query);
         searchBox.submit();
         // TODO remove this after validation fixed
-        driver.quit();
+        
     }
 
     @Then("the top result should be {string}")
