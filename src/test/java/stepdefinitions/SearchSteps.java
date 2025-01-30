@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.junit.jupiter.api.Assertions;
 
@@ -24,6 +25,12 @@ public class SearchSteps {
         System.setProperty("webdriver.gecko.driver", "C:/webdrivers/Firefox/geckodriver.exe");
         driver = new FirefoxDriver();
         // TODO Add assertion that firefox is open
+    }
+    @Given("I open Edge")
+    public void openEdgeBrowser() {
+        // TODO make this configurable
+        System.setProperty("webdriver.edge.driver", "C:/webdrivers/Edge/msedgedriver.exe" );
+        driver = new EdgeDriver();
     }
     @When("I navigate to {string}")
     public void navigateTo(String url) {
