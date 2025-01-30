@@ -5,7 +5,8 @@ import org.junit.platform.suite.api.ConfigurationParameter;
 import org.junit.platform.suite.api.IncludeEngines;
 import org.junit.platform.suite.api.SelectClasspathResource;
 import org.junit.platform.suite.api.Suite;
-
+// To use Cucumber constants instead of props
+// https://github.com/cucumber/cucumber-jvm/tree/main/cucumber-junit-platform-engine
 import static io.cucumber.junit.platform.engine.Constants.*;
 
 @Suite
