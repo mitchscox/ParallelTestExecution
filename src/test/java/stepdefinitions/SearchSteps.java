@@ -17,8 +17,6 @@ public class SearchSteps {
     private WebDriver driver;
     private static final Logger logger = LogManager.getLogger(SearchSteps.class);
 
-
-
     @Given("I open Chrome")
     public void openChromeBrowser() {
         try {
@@ -87,8 +85,9 @@ public class SearchSteps {
 
         } catch (Exception e) {
             logger.error("Error occurred during search: {}", e.getMessage(), e);
+            // TODO The following finally  statement needs to removed post
         } finally {
-            // Close the browser after search
+
             logger.info("Closing browser after search.");
             driver.quit();
         }
@@ -98,7 +97,8 @@ public class SearchSteps {
     public void validateTopResult(String expectedUrl) {
         try {
             logger.info("Validating top result against expected URL: {}", expectedUrl);
-            WebElement topResult = driver.findElement(By.cssSelector("h3")); // Adjust selector as needed
+            // TODO change this two a string compare instead of a read
+            WebElement topResult = driver.findElement(By.cssSelector("h3"));
             topResult.click();
             logger.info("Clicked on the top result.");
 
@@ -107,12 +107,9 @@ public class SearchSteps {
 
             Assertions.assertEquals(expectedUrl, actualUrl, "Top result URL does not match!");
             logger.info("Validation successful: Expected URL matches actual URL.");
-
         } catch (Exception e) {
             logger.error("Error occurred during top result validation: {}", e.getMessage(), e);
-         // TODO Remove this finally statement aftger
         } finally {
-
             logger.info("Closing browser after validation.");
             driver.quit();
         }
