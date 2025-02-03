@@ -1,63 +1,51 @@
 package stepdefinitions;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.junit.jupiter.api.Assertions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.net.URL;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class SearchSteps {
+public class RemoteSearchSteps {
     private WebDriver driver;
-    private static final Logger logger = LogManager.getLogger(SearchSteps.class);
+    private static final Logger logger = LogManager.getLogger(RemoteSearchSteps.class);
 
-    @Given("I open Chrome")
-    public void openChromeBrowser() {
+    @Given("I open {string}")
+    public void openBrowser(String browser) {
         try {
-            // TODO: Make this configurable
-            System.setProperty("webdriver.chrome.driver", "C:/webdrivers/Chrome/chromedriver.exe");
-            driver = new ChromeDriver();
-            logger.info("Chrome  launched successfully.");
-            assertFalse(driver.getWindowHandles().isEmpty(), "Chrome  did not open");
-            logger.info("Assertion passed: Chrome browser is open.");
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+            switch (browser.toLowerCase()) {
+                case "chrome":
+                    capabilities.setBrowserName("chrome");
+                    break;
+                case "firefox":
+                    capabilities.setBrowserName("firefox");
+                    break;
+                case "edge":
+                    capabilities.setBrowserName("MicrosoftEdge");
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unsupported browser: " + browser);
+            }
+
+            // Connect to the Selenium Grid hub
+            driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capabilities);
+            logger.info("{} launched successfully.", browser);
+            assertFalse(driver.getWindowHandles().isEmpty(), browser + " did not open");
+            logger.info("Assertion passed: {} browser is open.", browser);
 
         } catch (Exception e) {
-            logger.error("Error opening Chrome browser: {}", e.getMessage(), e);
-        }
-    }
-    @Given("I open Firefox")
-    public void openFirefoxBrowser() {
-        try {
-            // TODO: Make this configurable
-            System.setProperty("webdriver.firefox.driver", "C:/webdrivers/FireFox/geckodriver.exe");
-            driver = new FirefoxDriver();
-            logger.info("Firefox launched successfully.");
-            assertFalse(driver.getWindowHandles().isEmpty(), "Firefox  did not open");
-            logger.info("Assertion passed: Firefox browser is open.");
-
-        } catch (Exception e) {
-            logger.error("Error opening Firefox browser: {}", e.getMessage(), e);
-        }
-    }
-
-    @Given("I open Edge")
-    public void openEdgeBrowser() {
-        try {
-            // TODO: Make this configurable
-            System.setProperty("webdriver.edge.driver", "C:/webdrivers/Edge/msedgedriver.exe");
-            driver = new EdgeDriver();
-            logger.info("Edge launched successfully.");
-            assertFalse(driver.getWindowHandles().isEmpty(), "Edge did not open");
-            logger.info("Assertion passed: Edge is open.");
-
-        } catch (Exception e) {
-            logger.error("Error opening Edge : {}", e.getMessage(), e);
+            logger.error("Error opening {} browser: {}", browser, e.getMessage(), e);
         }
     }
 
@@ -85,9 +73,7 @@ public class SearchSteps {
 
         } catch (Exception e) {
             logger.error("Error occurred during search: {}", e.getMessage(), e);
-            // TODO The following finally  statement needs to removed post
         } finally {
-
             logger.info("Closing browser after search.");
             driver.quit();
         }
@@ -97,7 +83,6 @@ public class SearchSteps {
     public void validateTopResult(String expectedUrl) {
         try {
             logger.info("Validating top result against expected URL: {}", expectedUrl);
-            // TODO change this two a string compare instead of a read
             WebElement topResult = driver.findElement(By.cssSelector("h3"));
             topResult.click();
             logger.info("Clicked on the top result.");
