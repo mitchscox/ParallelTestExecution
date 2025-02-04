@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="mvn parallel ccvt" type="MavenRunConfiguration" factoryName="Maven">
+  <configuration default="false" name="mvn  ccvt" type="MavenRunConfiguration" factoryName="Maven">
     <MavenSettings>
       <option name="myGeneralSettings" />
       <option name="myRunnerSettings" />

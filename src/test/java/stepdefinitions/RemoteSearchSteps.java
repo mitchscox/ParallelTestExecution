@@ -6,6 +6,9 @@ import io.cucumber.java.en.Then;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.junit.jupiter.api.Assertions;
@@ -19,27 +22,47 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class RemoteSearchSteps {
     private WebDriver driver;
     private static final Logger logger = LogManager.getLogger(RemoteSearchSteps.class);
-
+    // TODO get the below usegrid var into props file
+    private boolean useGrid = Boolean.parseBoolean(System.getProperty("useGrid", "false"));
     @Given("I open {string}")
     public void openBrowser(String browser) {
         try {
-            DesiredCapabilities capabilities = new DesiredCapabilities();
-            switch (browser.toLowerCase()) {
-                case "chrome":
-                    capabilities.setBrowserName("chrome");
-                    break;
-                case "firefox":
-                    capabilities.setBrowserName("firefox");
-                    break;
-                case "edge":
-                    capabilities.setBrowserName("MicrosoftEdge");
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unsupported browser: " + browser);
-            }
+            if (useGrid) {
 
-            // Connect to the Selenium Grid hub
-            driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capabilities);
+                DesiredCapabilities capabilities = new DesiredCapabilities();
+                switch (browser.toLowerCase()) {
+                    case "chrome":
+                        capabilities.setBrowserName("chrome");
+                        break;
+                    case "firefox":
+                        capabilities.setBrowserName("firefox");
+                        break;
+                    case "edge":
+                        capabilities.setBrowserName("MicrosoftEdge");
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Unsupported browser: " + browser);
+                }
+                driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capabilities);
+            } else {
+
+                switch (browser.toLowerCase()) {
+                    case "chrome":
+                        System.setProperty("webdriver.chrome.driver", "C:/webdrivers/Chrome/chromedriver.exe");
+                        driver = new ChromeDriver();
+                        break;
+                    case "firefox":
+                        System.setProperty("webdriver.gecko.driver", "C:/webdrivers/FireFox/geckodriver.exe");
+                        driver = new FirefoxDriver();
+                        break;
+                    case "edge":
+                        System.setProperty("webdriver.edge.driver", "C:/webdrivers/Edge/msedgedriver.exe");
+                        driver = new EdgeDriver();
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Unsupported browser: " + browser);
+                }
+            }
             logger.info("{} launched successfully.", browser);
             assertFalse(driver.getWindowHandles().isEmpty(), browser + " did not open");
             logger.info("Assertion passed: {} browser is open.", browser);

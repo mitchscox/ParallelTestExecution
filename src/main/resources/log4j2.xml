@@ -14,7 +14,7 @@
 
     <Loggers>
         <!-- Root Logger -->
-        <Root level="Warn">
+        <Root level="INFO">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="FileLogger"/>
         </Root>
